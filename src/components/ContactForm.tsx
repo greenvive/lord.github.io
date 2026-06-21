@@ -1,54 +1,51 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { site } from "@/lib/site";
 
 const services = ["무대", "포토존", "음향", "조명", "LED", "트러스", "기타"];
 
 const inputClass = "w-full rounded-xl border border-black/15 px-4 py-3 text-sm focus:border-lord-orange focus:outline-none";
 
 export default function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "success">("idle");
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("loading");
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-    const payload = {
-      name: formData.get("name"),
-      company: formData.get("company"),
-      phone: formData.get("phone"),
-      email: formData.get("email"),
-      eventName: formData.get("eventName"),
-      eventDate: formData.get("eventDate"),
-      location: formData.get("location"),
-      indoorOutdoor: formData.get("indoorOutdoor"),
-      attendees: formData.get("attendees"),
-      services: formData.getAll("services"),
-      budget: formData.get("budget"),
-      message: formData.get("message"),
-    };
+    const rows: [string, string][] = [
+      ["이름", String(formData.get("name") ?? "")],
+      ["회사명", String(formData.get("company") ?? "")],
+      ["연락처", String(formData.get("phone") ?? "")],
+      ["이메일", String(formData.get("email") ?? "")],
+      ["행사명", String(formData.get("eventName") ?? "")],
+      ["행사일", String(formData.get("eventDate") ?? "")],
+      ["설치 장소", String(formData.get("location") ?? "")],
+      ["실내/야외", String(formData.get("indoorOutdoor") ?? "")],
+      ["예상 참석 인원", String(formData.get("attendees") ?? "")],
+      ["필요한 서비스", formData.getAll("services").join(", ")],
+      ["예산 범위", String(formData.get("budget") ?? "")],
+      ["문의 내용", String(formData.get("message") ?? "")],
+    ];
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error("request failed");
-      setStatus("success");
-      form.reset();
-    } catch {
-      setStatus("error");
-    }
+    const body = rows.map(([label, value]) => `${label}: ${value || "(미입력)"}`).join("\n");
+    const subject = `[상담 문의] ${formData.get("eventName") || formData.get("name") || "LORD 상담 신청"}`;
+    const mailtoUrl = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoUrl;
+    setStatus("success");
   }
 
   if (status === "success") {
     return (
       <div className="rounded-2xl border border-lord-orange bg-lord-cream p-8 text-center">
-        <p className="text-lg font-extrabold text-lord-black">문의가 접수되었습니다.</p>
-        <p className="mt-2 text-sm text-[#4a4a4a]">남겨주신 연락처로 빠르게 견적 방향을 안내드리겠습니다.</p>
+        <p className="text-lg font-extrabold text-lord-black">메일 작성 화면으로 이동합니다.</p>
+        <p className="mt-2 text-sm text-[#4a4a4a]">
+          이메일 클라이언트에서 작성된 문의 내용을 확인하고 전송해주세요. 메일이 열리지 않는다면 전화 또는
+          카카오톡으로 문의해주세요.
+        </p>
       </div>
     );
   }
@@ -92,13 +89,9 @@ export default function ContactForm() {
         <textarea name="message" rows={5} className={`${inputClass} mt-2`} placeholder="행사 목적, 참고 이미지 링크, 기타 요청 사항을 자유롭게 남겨주세요." />
       </div>
 
-      <button type="submit" disabled={status === "loading"} className="btn-primary w-full">
-        {status === "loading" ? "전송 중..." : "상담 신청하기"}
+      <button type="submit" className="btn-primary w-full">
+        상담 신청하기 (메일 작성)
       </button>
-
-      {status === "error" && (
-        <p className="text-sm font-bold text-red-600">전송 중 오류가 발생했습니다. 전화로 문의해주세요.</p>
-      )}
     </form>
   );
 }

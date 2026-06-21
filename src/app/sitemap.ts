@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { portfolioDetails } from "@/lib/content/portfolio";
 
+export const dynamic = "force-static";
+
 const staticPaths = [
   "",
   "/stage-rental-installation",

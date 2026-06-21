@@ -1,7 +1,7 @@
 export const site = {
   name: "LORD",
   legalName: "LORD",
-  url: "https://www.lord-stage.kr",
+  url: "https://lord.github.io",
   description:
     "LORD는 기업행사, 공공행사, 축제, 공연을 위한 무대 설치·렌탈, 포토존 제작, 음향·조명·LED·트러스 시스템을 통합 제공하는 행사 공간 설치 전문 업체입니다.",
   phone: "+82-1000-0000",
