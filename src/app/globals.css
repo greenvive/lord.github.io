@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+:root {
+  --lord-orange: #ff6a00;
+  --lord-orange-light: #ff8a1e;
+  --lord-black: #111111;
+  --lord-charcoal: #1a1a1d;
+  --lord-cream: #fff3e6;
+  --lord-white: #ffffff;
+  --lord-gray: #b9b9b9;
+
+  --background: var(--lord-white);
+  --foreground: var(--lord-black);
+}
+
+@theme inline {
+  --color-lord-orange: var(--lord-orange);
+  --color-lord-orange-light: var(--lord-orange-light);
+  --color-lord-black: var(--lord-black);
+  --color-lord-charcoal: var(--lord-charcoal);
+  --color-lord-cream: var(--lord-cream);
+  --color-lord-white: var(--lord-white);
+  --color-lord-gray: var(--lord-gray);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-kr: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-en: "Inter", "Montserrat", sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-kr);
+}
+
+.hero-title {
+  font-size: clamp(36px, 6vw, 88px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.body-copy {
+  font-size: 18px;
+  line-height: 1.72;
+  color: #4a4a4a;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 0 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff8a1e 0%, #ff6a00 55%, #d94300 100%);
+  color: #111111;
+  font-weight: 900;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(255, 106, 0, 0.35);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 0 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  color: #ffffff;
+  font-weight: 700;
+  transition: border-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: #ff6a00;
+}
+
+.service-card {
+  border-radius: 32px;
+  padding: 36px;
+  background: #111111;
+  color: #ffffff;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.24);
+  border: 1px solid transparent;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  border-color: #ff6a00;
+}
+
+.portfolio-card {
+  border-radius: 28px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #eee;
+}
+
+.portfolio-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  font-size: 14px;
+}
